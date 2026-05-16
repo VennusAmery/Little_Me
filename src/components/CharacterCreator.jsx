@@ -2,6 +2,8 @@ import { useState } from "react";
 import ChibiCharacter from "./ChibiCharacter";
 import { TOPS, BOTTOMS, HATS, FOOTWEAR } from "../data/options";
 
+// 1. IMPORTANTE: El orden de este arreglo define las pestañas horizontales.
+// Cada categoría apunta estrictamente a su llave correspondiente en el estado (configKey)
 const CATEGORIES = [
   { id: "top",      label: "Camisa",    icon: "👕", options: TOPS,     configKey: "top"      },
   { id: "bottom",   label: "Pantalón",  icon: "👖", options: BOTTOMS,  configKey: "bottom"   },
@@ -9,140 +11,102 @@ const CATEGORIES = [
   { id: "footwear", label: "Calzado",   icon: "👟", options: FOOTWEAR, configKey: "footwear" },
 ];
 
-function Arrow({ dir, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className="w-10 h-10 rounded-full bg-fog border-2 border-mist text-dusk text-xl
-                 hover:bg-sand hover:border-stone flex items-center justify-center
-                 shrink-0 shadow-soft transition-all duration-150"
-    >
-      {dir === "left" ? "‹" : "›"}
-    </button>
-  );
-}
-
-function OptionPill({ label, active, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`
-        px-5 py-2 rounded-full text-sm font-semibold border-2 whitespace-nowrap
-        transition-all duration-200 shrink-0
-        ${active
-          ? "border-warm bg-sand text-ink shadow-soft scale-105"
-          : "border-mist bg-fog text-dusk hover:border-stone hover:bg-sand"
-        }
-      `}
-    >
-      {label}
-    </button>
-  );
-}
-
-export default function CharacterCreator({ onContinue }) {
+export default function CharacterCreator() {
+  // Estado base inicial del muñeco
   const [config, setConfig] = useState({
     top:      "none",
     bottom:   "none",
     hat:      "none",
     footwear: "none",
   });
+  
+  // Índice para saber qué pestaña de ropa está activa
   const [activeCatIdx, setActiveCatIdx] = useState(0);
-  const [changing, setChanging] = useState(false);
 
+  // Obtenemos los datos de la categoría actual basada en la pestaña activa
   const cat = CATEGORIES[activeCatIdx];
-  const currentOptIdx = cat.options.findIndex(o => o.id === config[cat.configKey]);
 
-  const navigate = (dir) => {
-    const next = (currentOptIdx + dir + cat.options.length) % cat.options.length;
-    applyOption(cat.options[next].id);
-  };
-
+  // Función corregida: Garantiza que si estás en la pestaña de sombreros, 
+  // modifique "hat" y no "footwear"
   const applyOption = (id) => {
-    setChanging(true);
-    setTimeout(() => {
-      setConfig(c => ({ ...c, [cat.configKey]: id }));
-      setChanging(false);
-    }, 150);
+    setConfig(c => ({ 
+      ...c, 
+      [cat.configKey]: id  // Modifica dinámicamente 'top', 'bottom', 'hat' o 'footwear'
+    }));
   };
 
   return (
-    <div className="screen-enter min-h-screen flex flex-col items-center justify-between
-                    py-6 px-4 bg-linear-to-b from-fog to-cream">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-between font-sans">
+      
+      {/* ── Zona Superior: Visualización del Chibi ── */}
+      <div className="w-full flex-1 max-w-md bg-[#FFF9F2] relative flex items-center justify-center p-6 rounded-b-[40px] shadow-sm">
+        <button className="absolute left-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md border border-[#F0E6D8] text-xl font-bold text-[#A89888]">‹</button>
+        
+        {/* Render del maniquí */}
+        <ChibiCharacter config={config} />
+        
+        <button className="absolute right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md border border-[#F0E6D8] text-xl font-bold text-[#A89888]">›</button>
 
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-ink tracking-wide">Viste tu personaje</h1>
-        <p className="text-sm text-warm mt-1">Elige la combinación perfecta ✦</p>
+        <button className="absolute top-4 right-4 bg-white border-2 border-[#DCD0C0] px-3 py-1.5 rounded-2xl flex flex-col items-center shadow-sm text-[10px] font-bold text-[#6D655A]">
+          <span>🐱</span>
+          <span>Switch</span>
+        </button>
       </div>
 
-      {/* Chibi */}
-      <div className={`transition-opacity duration-150 mt-2 ${changing ? "opacity-0" : "opacity-100"}`}>
-        <ChibiCharacter config={config}/>
+      {/* ── Zona Media: Pestañas de Selección (Filtros de clóset) ── */}
+      <div className="w-full max-w-md px-4 mt-4 flex gap-1 border-b-2 border-[#F3EDE4]">
+        {CATEGORIES.map((c, i) => (
+          <button
+            key={c.id}
+            onClick={() => setActiveCatIdx(i)} // Cambia de pestaña
+            className={`
+              flex-1 py-3 text-center rounded-t-2xl font-bold text-sm transition-all duration-150 border-t-2 border-x-2
+              ${activeCatIdx === i
+                ? "bg-[#FAF6F0] border-[#DCD0C0] text-[#6D655A] translate-y-[2px]"
+                : "bg-white border-transparent text-[#BAAFA3] hover:text-[#6D655A]"
+              }
+            `}
+          >
+            <span className="text-lg block">{c.icon}</span>
+            <span className="text-[10px] block mt-0.5 font-bold">{c.label}</span>
+          </button>
+        ))}
       </div>
 
-      {/* Flechas + opciones */}
-      <div className="flex items-center gap-3 mt-3 w-full max-w-sm justify-center">
-        <Arrow dir="left"  onClick={() => navigate(-1)}/>
-        <div className="flex gap-2 overflow-x-auto py-1 px-1">
-          {cat.options.map(opt => (
-            <OptionPill
-              key={opt.id}
-              label={opt.label}
-              active={config[cat.configKey] === opt.id}
-              onClick={() => applyOption(opt.id)}
-            />
-          ))}
-        </div>
-        <Arrow dir="right" onClick={() => navigate(1)}/>
-      </div>
-
-      {/* Resumen de selección actual */}
-      <div className="flex gap-2 flex-wrap justify-center mt-2 max-w-xs">
-        {CATEGORIES.map(c => {
-          const selected = c.options.find(o => o.id === config[c.configKey]);
-          if (!selected || selected.id === "none") return null;
+      {/* ── Zona Inferior: Grid de Miniaturas de la categoría seleccionada ── */}
+      <div className="w-full max-w-md bg-[#FAF6F0] flex-1 p-4 grid grid-cols-3 gap-3 overflow-y-auto content-start min-h-[260px]">
+        {cat.options.map(opt => {
+          // Comprueba si la opción de la cuadrícula es la que está activa en el personaje
+          const isSelected = config[cat.configKey] === opt.id;
+          
           return (
-            <span key={c.id} className="text-xs bg-sand border border-stone text-ink
-                                         px-3 py-1 rounded-full font-semibold">
-              {c.icon} {selected.label}
-            </span>
-          );
-        })}
-      </div>
-
-      {/* Categorías */}
-      <div className="w-full max-w-lg mt-4">
-        <div className="bg-fog border-2 border-mist rounded-soft p-2 flex justify-around">
-          {CATEGORIES.map((c, i) => (
             <button
-              key={c.id}
-              onClick={() => setActiveCatIdx(i)}
+              key={opt.id}
+              onClick={() => applyOption(opt.id)} // Ejecuta el cambio de ropa
               className={`
-                flex flex-col items-center gap-1 px-3 py-1 rounded-cozy
-                text-xs font-semibold transition-all duration-150
-                ${activeCatIdx === i
-                  ? "bg-sand text-ink border border-stone shadow-soft"
-                  : "text-dusk hover:text-ink"
+                aspect-square rounded-2xl flex flex-col items-center justify-center gap-2 p-2 border-2 transition-all
+                ${isSelected
+                  ? "bg-white border-[#C2B5A3] shadow-md scale-95"
+                  : "bg-[#F3EDE4] border-transparent hover:bg-white hover:border-[#DCD0C0]"
                 }
               `}
             >
-              <span className="text-base">{c.icon}</span>
-              <span>{c.label}</span>
+              {/* Contenedor cuadrado de la miniatura de la prenda */}
+              <div className="w-14 h-14 bg-white/60 rounded-xl flex items-center justify-center overflow-hidden p-1">
+                <img 
+                  src={opt.iconImg} 
+                  alt={opt.label} 
+                  className="max-w-full max-h-full object-contain" 
+                />
+              </div>
+              <span className="text-[11px] font-bold text-[#6D655A] truncate w-full text-center px-1">
+                {opt.label}
+              </span>
             </button>
-          ))}
-        </div>
+          );
+        })}
       </div>
-
-      {/* Continuar */}
-      <button
-        onClick={() => onContinue(config)}
-        className="mt-5 px-10 py-3 rounded-full bg-sand border-2 border-stone
-                   text-ink font-bold text-base shadow-warm
-                   hover:bg-cream hover:scale-105 transition-all duration-200"
-      >
-        Continuar ✦
-      </button>
+      
     </div>
   );
 }
