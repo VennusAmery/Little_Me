@@ -5,7 +5,7 @@ export default function App() {
     <main className="bg-white min-h-screen relative">
       <CharacterCreator />
 
-      {/* 🖍️ Filtro SVG Matemático Invisible para Simular el Borde de Crayón */}
+      {/* Filtro SVG Matemático Invisible para Simular el Borde de Crayón */}
       <svg className="absolute w-0 h-0 invisible" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="crayon-distortion">

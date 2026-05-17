@@ -9,7 +9,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 🎨 Estilo de Fuentes Escolares Tipo Crayón */
+/* Estilo de Fuentes Escolares Tipo Crayón */
 .crayon-title {
   font-family: 'Fredoka', sans-serif;
   letter-spacing: -0.02em;
@@ -19,7 +19,7 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
-/* 🪵 Textura de Papel Poroso / Libro de Dibujo */
+/*Textura de Papel Poroso / Libro de Dibujo */
 .bg-crayon-texture {
   background-color: #F9F6F0;
   background-image: 
@@ -29,13 +29,12 @@ body {
   background-position: 0 0, 4px 4px;
 }
 
-/* 🖍️ Filtro de Trazo Rugoso de Crayón de Cera */
 /* Aplica una distorsión orgánica a los bordes para que parezcan hechos a mano */
 .crayon-card, .bg-white\/70, img {
   filter: url(#crayon-distortion);
 }
 
-/* ⛵ Animación Flotante Adorable */
+/* Animación Flotante Adorable */
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50%       { transform: translateY(-6px) rotate(0.5deg); }
