@@ -1,25 +1,25 @@
 // 1. Opciones individuales del catálogo con sus miniaturas
 export const TOPS = [
-  { id: "none",         label: "Ninguna",      iconImg: "/assets/icons/none.png" },
-  { id: "camisa",       label: "Camisa",       iconImg: "/assets/icons/camisa.png" },
-  { id: "camisa_negra", label: "Camisa negra", iconImg: "/assets/icons/camisa_negra.png" },
+  { id: "none",         label: "Ninguna",      iconImg: "assets/icons/none.png" }, 
+  { id: "camisa",       label: "Camisa",       iconImg: "assets/icons/camisa.png" },
+  { id: "camisa_negra", label: "Camisa negra", iconImg: "assets/icons/camisa_negra.png" },
 ];
 
 export const BOTTOMS = [
-  { id: "none",        label: "Ninguno",     iconImg: "/assets/icons/none.png" },
-  { id: "pantalon",    label: "Pantalón",    iconImg: "/assets/icons/pantalon.png" },
-  { id: "pantaloneta", label: "Pantaloneta", iconImg: "/assets/icons/pantaloneta.png" },
+  { id: "none",        label: "Ninguno",     iconImg: "assets/icons/none.png" },
+  { id: "pantalon",    label: "Pantalón",    iconImg: "assets/icons/pantalon.png" },
+  { id: "pantaloneta", label: "Pantaloneta", iconImg: "assets/icons/pantaloneta.png" },
 ];
 
 export const HATS = [
-  { id: "none",     label: "Sin sombrero", iconImg: "/assets/icons/none.png" },
-  { id: "sombrero", label: "Sombrero",     iconImg: "/assets/icons/sombrero.png" },
+  { id: "none",     label: "Sin sombrero", iconImg: "assets/icons/none.png" },
+  { id: "sombrero", label: "Sombrero",     iconImg: "assets/icons/sombrero.png" },
 ];
 
 export const FOOTWEAR = [
-  { id: "none",   label: "Ninguno", iconImg: "/assets/icons/none.png" },
-  { id: "botas",  label: "Botas",   iconImg: "/assets/icons/botas.png" },
-  { id: "tennis", label: "Tennis",  iconImg: "/assets/icons/tennis.png" },
+  { id: "none",   label: "Ninguno", iconImg: "assets/icons/none.png" },
+  { id: "botas",  label: "Botas",   iconImg: "assets/icons/botas.png" },
+  { id: "tennis", label: "Tennis",  iconImg: "assets/icons/tennis.png" },
 ];
 
 // =====================================================================

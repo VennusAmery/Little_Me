@@ -11,8 +11,7 @@ export default function ChibiCharacter({ config }) {
   const imgNumber = getComboImage(top, bottom, hat, footwear);
   
   // Armamos la ruta de la imagen
-  const src = `/assets/combos/${imgNumber}.png`;
-
+const src = `assets/combos/${imgNumber}.png`;
   // Abre la consola del navegador (F12) y verás exactamente qué busca React en tiempo real
   console.log(`[Clóset Log] Buscando combinación: "${top}|${bottom}|${hat}|${footwear}" -> Imagen asignada: ${imgNumber}.png`);
 
